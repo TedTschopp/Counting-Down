@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Calendar permission usage descriptions -->
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>ChronoEvent needs full access to your calendar to select and pin events for countdowns.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>ChronoEvent needs access to your calendar to let you pick events.</string>
+	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+	<string>ChronoEvent can write events to your calendar if you choose to save them.</string>
+</dict>
+</plist>
