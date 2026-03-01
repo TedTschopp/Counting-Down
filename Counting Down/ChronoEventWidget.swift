@@ -36,6 +36,12 @@ struct CountdownProvider: TimelineProvider {
     }
 }
 
+#if os(iOS)
+let supportedWidgetFamilies: [WidgetFamily] = [.systemSmall, .systemMedium, .accessoryInline, .accessoryCircular, .accessoryRectangular]
+#else
+let supportedWidgetFamilies: [WidgetFamily] = [.systemSmall, .systemMedium]
+#endif
+
 // MARK: - Widget View
 struct CountdownWidgetEntryView: View {
     var entry: CountdownProvider.Entry
@@ -46,12 +52,15 @@ struct CountdownWidgetEntryView: View {
                     .font(.headline)
                     .privacySensitive(entry.isPrivacyRedacted)
             }
-            TimerView(targetDate: entry.targetDate)
+            WidgetTimerView(targetDate: entry.targetDate)
         }
         .padding()
     }
 }
 
+#if WIDGET_EXTENSION
+// Only compile the widget entry point in the Widget Extension target.
+// Add 'WIDGET_EXTENSION' to the extension's Active Compilation Conditions.
 @main
 struct ChronoEventWidget: Widget {
     let kind: String = "ChronoEventWidget"
@@ -60,14 +69,15 @@ struct ChronoEventWidget: Widget {
         StaticConfiguration(kind: kind, provider: CountdownProvider()) { entry in
             CountdownWidgetEntryView(entry: entry)
         }
-        .supportedFamilies([.systemSmall, .systemMedium, .accessoryInline, .accessoryCircular, .accessoryRectangular])
+        .supportedFamilies(supportedWidgetFamilies)
         .configurationDisplayName("ChronoEvent")
         .description("See your event countdown anywhere.")
     }
 }
+#endif
 
-// MARK: - TimerView for Widget
-struct TimerView: View {
+// MARK: - WidgetTimerView for Widget
+struct WidgetTimerView: View {
     let targetDate: Date
     var body: some View {
         // Use the system timer rendering for live updating
